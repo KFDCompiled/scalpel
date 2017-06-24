@@ -2,22 +2,40 @@
 	<head><title><TMPL_VAR NAME=INITIALS> Calendar</title></head>
 	<body>
 		<style type="text/css">
-			.tg  {border-collapse:collapse;border-spacing:0;}
-			.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
-			.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
-			.tg .tg-yw4l{vertical-align:top}
+		table { border-collapse: collapse; empty-cells: show; }
+
+		th { font-family:Arial, sans-serif; font-size:14px; padding:10px 5px; position: relative; border-style:solid; border-width:1px}
+
+		tr.strikeout th:before {
+			content: " ";
+			position: absolute;
+			top: 50%;
+			left: 0;
+			border-bottom: 1px solid #111;
+			width: 100%;
+		}
+
+		tr.strikeout th:after {
+			content: "\00B7";
+			font-size: 1px;
+		}
+
+		/* Extra styling */
+		td { width: 100px; }
+		th { text-align: left; }
+
 		</style>
 		<TMPL_VAR NAME=JUDGE> <TMPL_VAR NAME=MONTH> <TMPL_VAR NAME=DATE>, <TMPL_VAR NAME=YEAR>, derived from SLC_Calendar.pdf that was last modified on <TMPL_VAR NAME=MODIFIED>, and with SHA512:<br>
 		<TMPL_VAR NAME=DIGEST>
 		<p>
 		<TMPL_LOOP NAME=ENTRY>
-		<table class="tg">
+		<table>
 			<tr>
-				<th class="tg-yw4l"><TMPL_VAR NAME=ENTRY_NUMBER></th>
-				<th class="tg-yw4l"><TMPL_VAR NAME=DEFENDANT></th>
-				<th class="tg-yw4l"><TMPL_VAR NAME=CASE_NUMBER></th>
-				<th class="tg-yw4l"><TMPL_VAR NAME=HEARING_TYPE></th>
-				<th class="tg-yw4l"></th>
+				<th><TMPL_VAR NAME=ENTRY_NUMBER></th>
+				<th><TMPL_VAR NAME=DEFENDANT></th>
+				<th><TMPL_VAR NAME=CASE_NUMBER></th>
+				<th><TMPL_VAR NAME=HEARING_TYPE></th>
+				<th></th>
 			</tr>
 			<br>
 		</table>
