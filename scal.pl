@@ -8,6 +8,9 @@ use File::stat ;
 use Time::localtime ;
 use Digest::SHA qw ( sha512_hex ) ;
 
+system ( 'wget https://www.utcourts.gov/cal/data/SLC_Calendar.pdf' );
+system ( 'pdftotext SLC_Calendar.pdf' );
+
 my $pdf = 'SLC_Calendar.pdf' ;
 my $pdf_st = stat ( $pdf ) or die "No $pdf: $!" ; # Stat $pdf
 
