@@ -62,6 +62,8 @@ if ( open ( HANDLE, "SLC_Calendar.txt" ) ) {
 		push ( @file_array, \@line_array ) ;
 	}
 
+	system ( 'rm SLC_Calendar.*' ) ;
+
 	#print Dumper \@file_array ;
 
 	# Find start of entries
