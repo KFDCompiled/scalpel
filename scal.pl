@@ -41,17 +41,14 @@ if ( $judge_initials eq "EHM") {
 }elsif ( $judge_initials eq "AB" ) {
 	$judge = "BOYDEN" ;
 	$judge_surname_position = 1 ;
+}elsif ( $judge_initials eq "MSK" ) {
+    $judge = "KOURIS" ;
+    $judge_surname_position = 1 ;
 }
 
 my $month = $ARGV[1] ;
 my $date = $ARGV[2];
 my $year = $ARGV[3];
-#my $day = "Monday" ;
-
-#print "Judge: $judge\n" ;
-#print "Month: $month\n" ;
-#print "Date: $date\n" ;
-#print "Year: $year\n" ;
 
 if ( open ( HANDLE, "SLC_Calendar.txt" ) ) {
 	# Load 2D array @file_array with lines of SLC_Calendar.txt
@@ -64,8 +61,6 @@ if ( open ( HANDLE, "SLC_Calendar.txt" ) ) {
 
 	system ( 'rm SLC_Calendar.*' ) ;
 
-	#print Dumper \@file_array ;
-
 	# Find start of entries
 	# NOTE: this logic depends on calendar specific $judge variable--number of words in judge's name. E.g., KBG has two words, EHM has three
 	my $i = 0 ;
@@ -74,7 +69,6 @@ if ( open ( HANDLE, "SLC_Calendar.txt" ) ) {
 	} until (	( $file_array[$i][0] eq $page_end ) && 
 				( $file_array[$i+2][1] eq $page_declar ) && 
 				( $file_array[$i+3][$judge_surname_position] eq $judge ) &&
-				( $file_array[$i+4][0] eq "FOURTH" ) &&
 				( $file_array[$i+7][0] eq $month ) &&
 				( $file_array[$i+7][1] == $date ) &&
 				( $file_array[$i+7][2] == $year ) ) ;
@@ -92,21 +86,21 @@ if ( open ( HANDLE, "SLC_Calendar.txt" ) ) {
 	# Splice @entry_array from @file_array
 	my @entry_array = @file_array[$start .. $end] ;
 
-	#print Dumper \@entry_array ;
-	
 	# Parse @entry_array into arrays @dft @case @hrg
 	$i = 0 ; # Reset counter
 	for $i ( 0 .. $#entry_array ) {
 		if ( 	( ( $entry_array[$i][2] eq "State" ) && ( $entry_array[$i][3] eq "Felony" ) ) || 
 				( ( $entry_array[$i][2] eq "Other" ) && ( $entry_array[$i][3] eq "Misdemeanor" ) ) || 
-				( ( $entry_array[$i][2] eq "Misdemeanor" ) && ( $entry_array[$i][3] eq "DUI" ) ) || 
+				( ( $entry_array[$i][2] eq "Misdemeanor" ) && ( $entry_array[$i][3] eq "DUI" ) ) ||
+				( ( $entry_array[$i][2] eq "Traffic" ) && ( $entry_array[$i][3] eq "Court" ) && ( $entry_array[$i][4] eq "Case" ) ) ||
 				( ( $entry_array[$i][2] eq "{Not" ) && ( $entry_array[$i][3] eq "Applicable}" ) ) ) { 
 				push ( @case, $entry_array[$i][1] ) 
 		}
 		if ( ( $entry_array[$i][0] eq $vs ) ) { push ( @dft, $entry_array[$i+1][0] ) }
 		if ( 	( ( $entry_array[$i][2] eq "State" ) && ( $entry_array[$i][3] eq "Felony" ) ) || 
 				( ( $entry_array[$i][2] eq "Other" ) && ( $entry_array[$i][3] eq "Misdemeanor" ) ) || 
-				( ( $entry_array[$i][2] eq "Misdemeanor" ) && ( $entry_array[$i][3] eq "DUI" ) ) || 
+				( ( $entry_array[$i][2] eq "Misdemeanor" ) && ( $entry_array[$i][3] eq "DUI" ) ) ||
+				( ( $entry_array[$i][2] eq "Traffic" ) && ( $entry_array[$i][3] eq "Court" ) && ( $entry_array[$i][4] eq "Case" ) ) ||
 				( ( $entry_array[$i][2] eq "{Not" ) && ( $entry_array[$i][3] eq "Applicable}" ) ) ) { 
 				my @recombined_array_primary = map { @$_ } $entry_array[$i-1] ;
 				my @recombined_array_alternate = map { @$_ } $entry_array[$i-4] ;
@@ -135,15 +129,6 @@ if ( open ( HANDLE, "SLC_Calendar.txt" ) ) {
 			$counter_index = 1 ;
 		}
 	}
-	
-	#print "Number of elements in counter array: $#counter\n" ;
-	#print Dumper \@counter ;
-	#print "Number of elements in dft array: $#dft\n" ;
-	#print Dumper \@dft ;
-	#print "Number of elements in case array: $#case\n" ;
-	#print Dumper \@case ;
-	#print "Number of elements in hrg array: $#hrg\n" ;
-	#print Dumper \@hrg ;
 	
 	# Generate HTML
 	my $template = HTML::Template -> new ( filename => 'entries.tmpl' ) ; # Open template
