@@ -44,6 +44,9 @@ if ( $judge_initials eq "EHM") {
 }elsif ( $judge_initials eq "MSK" ) {
     $judge = "KOURIS" ;
     $judge_surname_position = 1 ;
+}elsif ( $judge_initials eq "RNS" ) {
+	$judge = "SKANCHY" ;
+	$judge_surname_position = 1 ;
 }
 
 my $month = $ARGV[1] ;
