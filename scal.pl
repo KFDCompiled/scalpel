@@ -32,14 +32,17 @@ my $judge ;
 my $judge_surname_position ;
 my $judge_initials = $ARGV[0];
 
-if ( $judge_initials eq "EHM") {
-	$judge = "HRUBY-MILLS" ;
-	$judge_surname_position = 2 ;
-}elsif ( $judge_initials eq "KBG" ) {
+if ( $judge_initials eq "KBG" ) {
 	$judge = "BERNARDS-GOODMAN" ;
 	$judge_surname_position = 1 ;
 }elsif ( $judge_initials eq "AB" ) {
 	$judge = "BOYDEN" ;
+	$judge_surname_position = 1 ;
+}elsif ( $judge_initials eq "EHM" ) {
+    $judge = "HRUBY-MILLS" ;
+    $judge_surname_position = 2 ;
+}elsif ( $judge_initials eq "LMJ" ) {
+	$judge = "JONES" ;
 	$judge_surname_position = 1 ;
 }elsif ( $judge_initials eq "MSK" ) {
     $judge = "KOURIS" ;
