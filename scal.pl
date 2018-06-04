@@ -47,6 +47,9 @@ if ( $judge_initials eq "KBG" ) {
 }elsif ( $judge_initials eq "MSK" ) {
     $judge = "KOURIS" ;
     $judge_surname_position = 1 ;
+}elsif ( $judge_initials eq "KLP" ) {
+	$judge = "PETTIT" ;
+	$judge_surname_position = 1 ;
 }elsif ( $judge_initials eq "RNS" ) {
 	$judge = "SKANCHY" ;
 	$judge_surname_position = 1 ;
